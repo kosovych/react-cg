@@ -1,8 +1,12 @@
 import React from 'react';
-import { random } from 'node-forge';
 
-const Person = () => {
-  return <p>I'm a Person. I'm {Math.floor(Math.random() * 30)} y.o</p>
+const Person = ({name, age, children}) => {
+  return (
+    <div>
+      <p>I'm a {name}. I'm {age} y.o. </p>
+      <p>{children}</p>
+    </div>
+    )
 }
 
 export default Person;
