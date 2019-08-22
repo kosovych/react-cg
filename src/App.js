@@ -61,9 +61,13 @@ class App extends React.Component {
   }
 
   render() {
+    const style = {
+      // color: `rgba(${Math.floor(Math.random * 255)}, ${Math.floor(Math.random * 255)}, ${Math.floor(Math.random * 255)}, 1)`,
+      color: `red`,
+    }
     return (
       <div>
-        <h1>This is some users:</h1>
+        <h1 style={style}>This is some users:</h1>
         <button onClick={this.addYears}>Add years</button>
         {this.state.persons.map(person => <Person change={this.change} click={this.addYears} name={person.name} age={person.age} />)}
       </div>
