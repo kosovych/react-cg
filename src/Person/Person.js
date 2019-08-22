@@ -1,10 +1,11 @@
 import React from 'react';
 
-const Person = ({name, age, children}) => {
+const Person = ({name, age, children, click, change}) => {
   return (
-    <div>
+    <div onClick={click}>
       <p>I'm a {name}. I'm {age} y.o. </p>
       <p>{children}</p>
+      <input type="text" value={name} onChange={change}/>
     </div>
     )
 }
