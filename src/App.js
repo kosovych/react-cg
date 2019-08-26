@@ -33,10 +33,11 @@ import Person from './Person/Person';
 class App extends React.Component {
   state = {
     persons: [
-      { name: 'Max', age: 29 },
-      { name: 'Dani', age: 18 },
-      { name: 'Tanya', age: 21 },
-    ]
+      { id: 'asdf',name: 'Max', age: 29 },
+      { id: 'zxcvb',name: 'Dani', age: 18 },
+      { id: 'cvbn',name: 'Tanya', age: 21 },
+    ],
+    showPerson: true
   }
 
   addYears = () => {
@@ -50,26 +51,51 @@ class App extends React.Component {
     });
   }
 
-  change = (event) => {
+  change = (event, id) => {
+    const personIndex = this.state.persons.findIndex( p => p.id === id );
+    // debugger;
+    const person = {...this.state.persons[personIndex]};
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState({persons});
+  }
+  tooglePerson = () => {
     this.setState({
-      persons: [
-        { name: 'Max', age: 29 },
-        { name: event.target.value, age: 18 },
-        { name: 'Tanya', age: 21 },
-      ]
+      showPerson: !this.state.showPerson
+    });
+  }
+
+  removePerson = (index) => {
+    const persons = [...this.state.persons];
+    persons.splice(index, 1);
+    this.setState({
+      persons: persons
     })
   }
 
   render() {
     const style = {
-      // color: `rgba(${Math.floor(Math.random * 255)}, ${Math.floor(Math.random * 255)}, ${Math.floor(Math.random * 255)}, 1)`,
       color: `red`,
     }
+    const persons = <div>
+      {this.state.persons.map((person, index) => (
+        <Person
+          change={(event) => this.change(event, person.id)}
+          // click={() => this.removePerson(index)}
+          key={index}
+          name={person.name}
+          age={person.age}
+        />))}
+    </div>;
+
     return (
       <div>
         <h1 style={style}>This is some users:</h1>
-        <button onClick={this.addYears}>Add years</button>
-        {this.state.persons.map(person => <Person change={this.change} click={this.addYears} name={person.name} age={person.age} />)}
+        <button onClick={this.tooglePerson}>Add years</button>
+        { this.state.showPerson === true ?
+         persons: null
+        }
       </div>
     )
   }
