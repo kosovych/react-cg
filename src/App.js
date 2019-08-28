@@ -1,34 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Person from './Person/Person';
-
-// const App = () => {
-//   const [currentState, updateState] = useState({
-//     persons: [
-//       { name: 'Max', age: 29 },
-//       { name: 'Dani', age: 18 },
-//       { name: 'Tanya', age: 21 },
-//     ],
-//     title: 'State'
-//   });
-
-//   const addYears = () => {
-//     let persons = currentState.persons.map( person => {
-//       let {name, age} = person;
-//       age++;
-//       return ({name, age})
-//     });
-//     updateState({...currentState, persons});
-//     console.log(currentState);
-//   }
-
-//   return (
-//     <div>
-//       <h1>This is some users:</h1>
-//       <button onClick={addYears}>Add years</button>
-//       {currentState.persons.map(person => <Person name={person.name} age={person.age} />)}
-//     </div>
-//   )
-// };
+import classes from './style.module.css';
 
 class App extends React.Component {
   state = {
@@ -75,9 +47,7 @@ class App extends React.Component {
   }
 
   render() {
-    const style = {
-      color: `red`,
-    }
+    let btnClass;
     const persons = <div>
       {this.state.persons.map((person, index) => (
         <Person
@@ -89,10 +59,16 @@ class App extends React.Component {
         />))}
     </div>;
 
+    if(this.state.showPerson === true) {
+      btnClass = classes.Red;
+    } else {
+      btnClass = null
+    }
+
     return (
-      <div>
-        <h1 style={style}>This is some users:</h1>
-        <button onClick={this.tooglePerson}>Add years</button>
+      <div className={classes.App}>
+        <h1 className={classes.red}>This is some users:</h1>
+        <button className={btnClass} onClick={this.tooglePerson}>Add years</button>
         { this.state.showPerson === true ?
          persons: null
         }
