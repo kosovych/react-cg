@@ -9,7 +9,7 @@ const Person = ({name, age, children, click, change}) => {
     }
   }
   return (
-    <div style={style} className="Person" onClick={click}>
+    <div style={style} className="Person">
       <button
           onClick={click}>
           x
