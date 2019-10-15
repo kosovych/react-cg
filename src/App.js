@@ -54,7 +54,7 @@ class List extends React.Component {
     arr.fill('blah');
 
     return (
-      <div>
+      <div className="item">
         <h2>{title}</h2>
         <ul>
           {arr.map( i => <li key={i}>{i}</li>)}
