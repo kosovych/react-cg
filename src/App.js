@@ -1,69 +1,106 @@
 import React from 'react';
 
-const styleLength = {
-  border: '1px solid green',
-  color: 'white',
-  backgroundColor: 'green',
-  borderRadius: '50%',
-  padding: '3px',
-  display: 'inline-block',
-  margin: '0px 0px 0px 10px',
-}
+const mok = [
+  {
+    title: '1',
+  },
+  {
+    title: '2',
+  },
+  {
+    title: '3',
+  },
+  {
+    title: '4',
+  },
 
-const styleChar = {
-  display: 'inline-block',
-  padding: '16px',
-  textAlign: 'center',
-  margin: '16px',
-  border: '1px solid black',
-}
+  {
+    title: '5',
+  },
 
-const ValidationComponent = ({val, validVal}) => {
-  const isValid = val > validVal;
-  return (
-    <div style={{color: isValid ? 'green' : 'red'}}>
-      { isValid ? 'Text long enough' : 'Text too short' }
-    </div>
-  )
-}
+  {
+    title: '6',
+  },
 
-const CharComponents = ({char, click}) => {
-  return (
-    <span onClick={() => click()} style={styleChar}>{char}</span>
-  )
-}
-class App extends React.Component {
-  state = {
-    string: '',
-  };
+  {
+    title: '7',
+  },
 
-  setValue = (event) => {
-    this.setState({
-      string: event.target.value,
-    });
-  }
+  {
+    title: '8',
+  },
 
-  rmChar = (index) => {
-    const arrayOfChars = this.state.string.split('');
-    arrayOfChars.splice(index, 1);
-    this.setState({
-      string: arrayOfChars.join(''),
-    })
-  }
+  {
+    title: '9',
+  },
 
+  {
+    title: '10',
+  },
+
+  {
+    title: '11',
+  },
+
+  {
+    title: '12',
+  },
+];
+
+class List extends React.Component {
   render() {
-    const charArr = this.state.string.split('');
+    const {title} = this.props.list;
+    const arr = new Array(Math.floor((Math.random() * 10)));
+    arr.fill('blah');
+
     return (
       <div>
-        <input type="text" value={this.state.string} onChange={this.setValue}/>
-        <span style={styleLength}>{this.state.string.length}</span>
-        <ValidationComponent val={this.state.string.length} validVal={5} />
-        <div>
-          {charArr.map( (char, index) => <CharComponents key={index} click={() => this.rmChar(index)} char={char} /> )}
+        <h2>{title}</h2>
+        <ul>
+          {arr.map( i => <li key={i}>{i}</li>)}
+        </ul>
+      </div>
+    )
+  }
+}
+
+class App extends React.Component {
+  render() {
+    console.log(sortCol(mok, 1, 3));
+    console.log(sortCol(mok, 2, 3));
+    console.log(sortCol(mok, 3, 3));
+    
+    return (
+      <div className="container">
+        <div className="col">
+          {sortCol(mok, 1, 3).map(e => <List key={e.title} list={e}/>)}
+        </div>
+        <div className="col">
+          {sortCol(mok, 2, 3).map(e => <List key={e.title} list={e}/>)}
+        </div>
+        <div className="col">
+          {sortCol(mok, 3, 3).map(e => <List key={e.title} list={e}/>)}
         </div>
       </div>
     )
   }
+}
+
+function sortCol(array, colNumber, colAmount) {
+  let currentCol = 0;
+  let newArray = array.slice(colNumber - 1);
+  return newArray.filter((el, i) => {
+    if(currentCol === colAmount) {
+      currentCol = 0;
+    }
+    if(currentCol === 0) {
+      currentCol++;
+      return el;
+    }
+    else {
+      currentCol++;
+    }
+  });
 }
 
 export default App;
