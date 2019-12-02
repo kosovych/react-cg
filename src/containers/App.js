@@ -5,6 +5,10 @@ import Radium, { StyleRoot } from 'radium';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log('[App.js] -> constructor()');
+  }
   state = {
     persons: [
       { id: 'asdf', name: 'Max', age: 29 },
@@ -13,6 +17,19 @@ class App extends React.Component {
     ],
     showPerson: true
   };
+
+  static getDerivedStateProps(props, state) {
+    console.log('[App.js] -> getDerivedStateProps()', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount()');
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount()');
+  }
 
   addYears = () => {
     let newPersonsYears = this.state.persons.map(person => {
@@ -46,8 +63,9 @@ class App extends React.Component {
       persons: persons
     });
   };
-
+  
   render() {
+    console.log('[App.js render()]');
     let persons;
     if (this.state.showPerson) {
       persons = (
@@ -62,7 +80,6 @@ class App extends React.Component {
     } else {
       persons = null;
     }
-
     return (
       <StyleRoot>
         <div>
