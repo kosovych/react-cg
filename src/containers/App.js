@@ -15,7 +15,8 @@ class App extends React.Component {
       { id: 'zxcvb', name: 'Dani', age: 18 },
       { id: 'cvbn', name: 'Tanya', age: 21 }
     ],
-    showPerson: true
+    showPerson: true,
+    showCockpit: true
   };
 
   static getDerivedStateProps(props, state) {
@@ -82,12 +83,19 @@ class App extends React.Component {
     }
     return (
       <StyleRoot>
+        <button
+          type="button"
+          onClick={() => {this.setState({showCockpit: false})}}
+        >Remove Cockpit</button>
         <div>
+          { this.state.showCockpit ?
           <Cockpit
-            isShow={this.state.showPerson}
-            persons={this.state.persons.length}
-            tooglePerson={this.tooglePerson}
+          isShow={this.state.showPerson}
+          personsLength={this.state.persons.length}
+          tooglePerson={this.tooglePerson}
           />
+          : null
+        }
           {this.state.showPerson === true ? persons : null}
         </div>
       </StyleRoot>

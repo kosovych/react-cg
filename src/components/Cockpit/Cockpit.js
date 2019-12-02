@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const Cockpit = ({ isShow, persons, tooglePerson }) => {
+const Cockpit = ({ isShow, personsLength, tooglePerson }) => {
+  useEffect( () => {
+    console.log('[Cockpit.js] -> useEffect()');
+    const timerId = setTimeout( () => {
+      alert('Saved to server');
+    }, 1000);
+
+    return () => {
+      // clearTimeout(timerId);
+      console.log('[Cockpit.js] cleanup work')
+    };
+  }, []);
+
+  useEffect( () => {
+    console.log('[Cockpit.js] -> 2nd useEffect()');
+    return () => console.log('[Cockpit.js] cleanup 2 work');
+  });
+
   const btnStyle = {
     color: 'white',
     backgroundColor: 'green',
@@ -21,10 +38,10 @@ const Cockpit = ({ isShow, persons, tooglePerson }) => {
     btnStyle[':hover'] = { borderRadius: '12px' };
   }
 
-  if (persons <= 2) {
+  if (personsLength <= 2) {
     classes.push('red');
   }
-  if (persons <= 1) {
+  if (personsLength <= 1) {
     classes.push('bold');
   }
 
@@ -39,4 +56,4 @@ const Cockpit = ({ isShow, persons, tooglePerson }) => {
   );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);
