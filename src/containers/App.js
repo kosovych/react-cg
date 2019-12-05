@@ -3,11 +3,13 @@ import './style.css';
 import Persons from '../components/Persons/Persons';
 import Radium, { StyleRoot } from 'radium';
 import Cockpit from '../components/Cockpit/Cockpit';
+import AuthContext from '../context/auth-context';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     console.log('[App.js] -> constructor()');
+    this.$btn = React.createRef();
   }
   state = {
     persons: [
@@ -16,7 +18,8 @@ class App extends React.Component {
       { id: 'cvbn', name: 'Tanya', age: 21 }
     ],
     showPerson: true,
-    showCockpit: true
+    showCockpit: true,
+    auth: false,
   };
 
   static getDerivedStateProps(props, state) {
@@ -26,6 +29,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log('[App.js] componentDidMount()');
+    console.log(this.$btn.current.style.outline = '2px solid green');
   }
 
   componentWillMount() {
@@ -57,6 +61,13 @@ class App extends React.Component {
     });
   };
 
+  loginHandler = () => {
+    console.log('loginHandler()');
+    this.setState({
+      auth: true,
+    });
+  }
+
   removePerson = index => {
     const persons = [...this.state.persons];
     persons.splice(index, 1);
@@ -85,18 +96,28 @@ class App extends React.Component {
       <StyleRoot>
         <button
           type="button"
+          ref={this.$btn}
           onClick={() => {this.setState({showCockpit: false})}}
         >Remove Cockpit</button>
         <div>
-          { this.state.showCockpit ?
-          <Cockpit
-          isShow={this.state.showPerson}
-          personsLength={this.state.persons.length}
-          tooglePerson={this.tooglePerson}
-          />
-          : null
-        }
+          <AuthContext.Provider
+            value={
+              {
+                auth: this.state.auth,
+                logIn: this.loginHandler,
+              }
+            }>
+            { this.state.showCockpit ?
+            <Cockpit
+              isShow={this.state.showPerson}
+              personsLength={this.state.persons.length}
+              tooglePerson={this.tooglePerson}
+            />
+
+            : null
+            }
           {this.state.showPerson === true ? persons : null}
+          </AuthContext.Provider>
         </div>
       </StyleRoot>
     );

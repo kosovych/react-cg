@@ -1,10 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
+import AuthContext from '../../context/auth-context';
 
-const Cockpit = ({ isShow, personsLength, tooglePerson }) => {
+const Cockpit = ({ isShow, personsLength, tooglePerson, ...rest }) => {
+  const authContext = useContext(AuthContext);
+  const $btn = useRef();
+
+  useEffect( () => {
+    $btn.current.style.boxShadow = '0px 0px 2px 0px black';
+    return () => {
+      console.log('%c%s', 'background: linear-gradient( gold, orangered);', 'USEEFFECT');
+    }
+  });
+
   useEffect( () => {
     console.log('[Cockpit.js] -> useEffect()');
     const timerId = setTimeout( () => {
-      alert('Saved to server');
+      console.log('Saved to server');
     }, 1000);
 
     return () => {
@@ -16,6 +27,11 @@ const Cockpit = ({ isShow, personsLength, tooglePerson }) => {
   useEffect( () => {
     console.log('[Cockpit.js] -> 2nd useEffect()');
     return () => console.log('[Cockpit.js] cleanup 2 work');
+  });
+
+  useEffect(() => {
+    console.log('%c%s', 'color: orange' ,authContext.auth);
+    return () => console.log('%c%s', 'color: orange' ,authContext.auth);
   });
 
   const btnStyle = {
@@ -46,14 +62,28 @@ const Cockpit = ({ isShow, personsLength, tooglePerson }) => {
   }
 
   return (
-    <React.Fragment>
-      <h1 style={style}>This is some users:</h1>
-      <p className={classes.join(' ')}>Some text</p>
-      <button style={btnStyle} onClick={tooglePerson}>
-        Add years
-      </button>
-    </React.Fragment>
+    <AuthContext.Consumer>
+      {({logIn}) => (
+        <React.Fragment>
+          <h1 style={style}>This is some users:</h1>
+          <p className={classes.join(' ')}>Some text</p>
+          <button
+            style={btnStyle}
+            onClick={tooglePerson}
+            ref={$btn}
+            >
+            Add years
+          </button>
+          <button
+            type="button"
+            onClick={logIn}
+            >
+            LOGIN
+          </button>
+        </React.Fragment>
+      )}
+    </AuthContext.Consumer>
   );
 };
 
-export default React.memo(Cockpit);
+export default Cockpit;
