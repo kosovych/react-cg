@@ -1,0 +1,30 @@
+.BreadBottom {
+  background-image: url('../../../static/img/breat-bottom.png');
+}
+
+.BreadTop {
+  background-image: url('../../../static/img/breat-top.png');
+}
+
+.Meat {
+  background-image: url('../../../static/img/meat.png');
+}
+
+.Cheese {
+  background-image: url('../../../static/img/cheese.png');
+}
+
+.Salad {
+  background-image: url('../../../static/img/salet.png');
+}
+
+.Bacon {
+  background-image: url('../../../static/img/becon.png');
+}
+
+.Ingridient {
+  flex-grow: 1;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

@@ -1,13 +1,14 @@
 import React from 'react';
-import styles from './style.module.css';
+import Layout from './components/Layout/Layout';
+import BurdergBuilder from './containers/BurdergBuilder';
 
 class App extends React.Component {
-
+  
   render() {
     return (
-      <div className={styles.test}>
-        Hello
-      </div>
+      <Layout>
+        <BurdergBuilder />
+      </Layout>
     )
   }
 }
