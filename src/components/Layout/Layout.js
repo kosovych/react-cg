@@ -7,7 +7,7 @@ const Layout = ( {children} ) => {
       <div>
         Toolbar,
         Sidebar,
-        Backbrop
+        Backbrop,
       </div>
       <main className={style.main}>
         {children}
