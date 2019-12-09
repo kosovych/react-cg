@@ -1,3 +1,10 @@
+.Ingridient {
+  flex-grow: 1;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 .BreadBottom {
   background-image: url('../../../static/img/breat-bottom.png');
 }
@@ -20,11 +27,4 @@
 
 .Bacon {
   background-image: url('../../../static/img/becon.png');
-}
-
-.Ingridient {
-  flex-grow: 1;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
 }

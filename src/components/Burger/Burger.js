@@ -5,15 +5,23 @@ import styles from './Burger.module.css';
 
 
 const Burger = ({ ingr }) => {
-  const arrOfIngr = Object.keys(ingr)
+  let arrOfIngr = Object.keys(ingr)
     .map((ingKey => [...Array(ingr[ingKey])]
-      .map( (_, i) => <BurgerIngridients key={ingKey + i} type={ingKey} />) ));
+      .map( (_, i) => <BurgerIngridients key={ingKey + i} type={ingKey} />) ))
+    .reduce((arr, el) => {
+      return el.concat(arr)
+    }, []);
+    
+    if (arrOfIngr.length === 0) arrOfIngr = <p className="ta-center">Please, start adding ingridients</p>
   return (
-    <div className={styles.Burger}>
-      <BurgerIngridients type="breat-top" />
-        {arrOfIngr}
-      <BurgerIngridients type="breat-bottom" />
-    </div>
+    <>
+      <div className={styles.Burger}>
+        <BurgerIngridients type="breat-top" />
+          {arrOfIngr}
+        <BurgerIngridients type="breat-bottom" />
+      </div>
+    </>
+
   )
 };
 

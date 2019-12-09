@@ -1,0 +1,10 @@
+.BuildControl {
+  margin-bottom: 16px;  
+}
+.BuildControlBtn {
+  margin: 0 8px;
+}
+.Label {
+  width: 25%;
+  margin-bottom: 0;
+}
