@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './BuildControl.module.css';
 
-const BuildControl= ({ label, addIng, type }) => {
+const BuildControl= ({ label, addIng, type, rmIng, disable }) => {
   return (
     <div className={[styles.BuildControl, 'alert alert-info d-flex justify-content-center align-items-center'].join(' ')}>
       <div className={[styles.Label, 'h5'].join(' ')}>{ label }</div>
@@ -15,6 +15,8 @@ const BuildControl= ({ label, addIng, type }) => {
       <button
         className={[styles.BuildControlBtn, 'btn btn-light'].join(' ')}
         type="button"
+        onClick={() => rmIng(type)}
+        disabled={disable}
       >
         Less
       </button>

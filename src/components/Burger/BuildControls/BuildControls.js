@@ -8,10 +8,21 @@ const controls = [
   { label: 'Becon', type: 'becon' },
 ];
 
-const BuildControls = ({addIng}) => {
+const BuildControls = ({addIng, rmIng, disableInfo, price, purchasable}) => {
   return (
     <>
-      { controls.map(({ label, type }) => <BuildControl addIng={addIng} type={type} label={label} />) }
+    <h2 className="text-center">Price <span className="badge badge-secondary">$ {price.toFixed(2)}</span></h2>
+      { controls.map(({ label, type }) => (
+        <BuildControl
+          disable={disableInfo[type]}
+          key={type}
+          addIng={addIng}
+          type={type}
+          label={label}
+          rmIng={rmIng}
+        />)
+      )}
+    <button disabled={!purchasable}>Order NOW!</button>
     </>
   );
 }

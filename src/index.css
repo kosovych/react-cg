@@ -10,3 +10,7 @@ body {
 .ta-center {
   text-align: center;
 }
+
+.btn-light:disabled {
+  cursor: not-allowed;
+}
