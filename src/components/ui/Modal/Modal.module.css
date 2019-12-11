@@ -1,0 +1,25 @@
+.Modal {
+  position: fixed;
+  padding: 12px;
+  max-width: 420px;
+  width: 96%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.7);
+  animation: shown 0.5s;
+  opacity: 1;
+}
+
+@keyframes shown {
+  from {
+    top: 25%;
+    opacity: 0;
+  }
+  to {
+    top: 50%;
+    opacity: 1;
+  }
+}

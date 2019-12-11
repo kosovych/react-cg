@@ -8,10 +8,18 @@ const controls = [
   { label: 'Becon', type: 'becon' },
 ];
 
-const BuildControls = ({addIng, rmIng, disableInfo, price, purchasable}) => {
+const BuildControls = (
+  {
+    addIng,
+    rmIng,
+    disableInfo,
+    price,
+    purchasable,
+    purchasedHandler
+  }) => {
   return (
     <>
-    <h2 className="text-center">Price <span className="badge badge-secondary">$ {price.toFixed(2)}</span></h2>
+      <h2 className="text-center">Price <span className="badge badge-secondary">$ {price.toFixed(2)}</span></h2>
       { controls.map(({ label, type }) => (
         <BuildControl
           disable={disableInfo[type]}
@@ -22,7 +30,15 @@ const BuildControls = ({addIng, rmIng, disableInfo, price, purchasable}) => {
           rmIng={rmIng}
         />)
       )}
-    <button disabled={!purchasable}>Order NOW!</button>
+      <div className="d-flex justify-content-center btn-lg">
+        <button
+          className="btn btn-primary"
+          disabled={!purchasable}
+          onClick={() => purchasedHandler()}
+          >
+            Order NOW!
+          </button>
+      </div>
     </>
   );
 }

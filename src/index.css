@@ -14,3 +14,11 @@ body {
 .btn-light:disabled {
   cursor: not-allowed;
 }
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+ul {
+  padding-left: 24px;
+}

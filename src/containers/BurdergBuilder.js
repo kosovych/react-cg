@@ -1,12 +1,14 @@
 import React from 'react';
 import Burger from '../components/Burger/Burger';
 import BuildControls from '../components/Burger/BuildControls/BuildControls';
-
+import Modal from '../components/ui/Modal/Modal';
+import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 
 class BurdergBuilder extends React.Component {
   state = {
     price: 3,
     purchasable: false,
+    purchased: false,
     ingr: {
       meat: 0,
       cheese: 0,
@@ -36,7 +38,6 @@ class BurdergBuilder extends React.Component {
 
   updatePurchasable = () => {
     const isPurchasable = Object.entries(this.state.ingr).some(([type, count]) => {
-      console.log(count);
       return count > 0
     });
 
@@ -45,8 +46,16 @@ class BurdergBuilder extends React.Component {
     })
   }
 
+  purchasedHandler = () => {
+    this.setState( (prevState) => {
+      console.log('click');
+      
+      return { purchased: !prevState.purchased }
+    })
+  }
+
   render() {
-    const { ingr } = this.state;
+    const { ingr, purchased, purchasable } = this.state;
     const disableInfo = {};
     for (let type in ingr) {
       disableInfo[type] = ingr[type] <= 0;
@@ -62,10 +71,17 @@ class BurdergBuilder extends React.Component {
           addIng={this.addIngridiend}
           rmIng={this.removeIngridiend}
           price={ingrPrice}
-          purchasable={this.state.purchasable}
+          purchasedHandler={this.purchasedHandler}
+          purchasable={purchasable}
         />
+        { purchased ?
+          <Modal>
+            <OrderSummary ingridiends={this.state.ingr} />
+          </Modal>
+          :
+          null
+        }
       </>
-
     )
   } 
 };
