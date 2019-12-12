@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Backdrop.module.css';
 
-const Backdrop = () => (
-  <div className={styles.Backdrop} />
+const Backdrop = ({ clicked }) => (
+  <div onClick={clicked} className={styles.Backdrop} />
 );
 
 export default Backdrop;

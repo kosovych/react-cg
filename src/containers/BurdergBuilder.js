@@ -7,6 +7,7 @@ import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 class BurdergBuilder extends React.Component {
   state = {
     price: 3,
+    totalPrice: 0,
     purchasable: false,
     purchased: false,
     ingr: {
@@ -43,15 +44,24 @@ class BurdergBuilder extends React.Component {
 
     this.setState((prevState) => {
       return { purchasable: isPurchasable};
+    }, () => this.getPrice())
+  }
+
+  purchasedToggle = () => {
+    this.setState( (prevState) => {
+      return { purchased: !prevState.purchased }
     })
   }
 
-  purchasedHandler = () => {
-    this.setState( (prevState) => {
-      console.log('click');
-      
-      return { purchased: !prevState.purchased }
-    })
+  purchasContinue = () => {
+    alert('Purchas Continue');
+  }
+
+  getPrice = () => {
+    let ingrPrice = Object.entries(this.state.ingr).reduce((price, [type, count]) => {
+      return price + count * this.state.prices[type];
+    }, this.state.price);
+    this.setState({totalPrice: ingrPrice});
   }
 
   render() {
@@ -60,9 +70,6 @@ class BurdergBuilder extends React.Component {
     for (let type in ingr) {
       disableInfo[type] = ingr[type] <= 0;
     }
-    let ingrPrice = Object.entries(this.state.ingr).reduce((price, [type, count]) => {
-      return price + count * this.state.prices[type];
-    }, this.state.price);
     return (
       <>
         <Burger ingr={ingr} />
@@ -70,17 +77,23 @@ class BurdergBuilder extends React.Component {
           disableInfo={disableInfo}
           addIng={this.addIngridiend}
           rmIng={this.removeIngridiend}
-          price={ingrPrice}
-          purchasedHandler={this.purchasedHandler}
+          price={this.state.totalPrice || this.state.price}
+          purchasedToggle={this.purchasedToggle}
           purchasable={purchasable}
         />
-        { purchased ?
-          <Modal>
-            <OrderSummary ingridiends={this.state.ingr} />
-          </Modal>
-          :
-          null
-        }
+        <Modal
+          shown={purchased}
+          onCloseHandler={this.purchasedToggle}
+          title={'Order'}
+          footer={
+            <>
+              <button onClick={this.purchasedToggle} type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button onClick={this.purchasContinue} type="button" className="btn btn-primary">Continue</button>
+            </>
+          }
+          >
+          <OrderSummary price={this.state.totalPrice} purchasContinue={this.purchasContinue} ingridiends={this.state.ingr} />
+        </Modal>
       </>
     )
   } 

@@ -6,10 +6,12 @@
 }
 
 .BreadBottom {
+  max-height: 40%;
   background-image: url('../../../static/img/breat-bottom.png');
 }
 
 .BreadTop {
+  max-height: 40%;
   background-image: url('../../../static/img/breat-top.png');
 }
 

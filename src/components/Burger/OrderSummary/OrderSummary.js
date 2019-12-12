@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrderSummary = ({ ingridiends }) => {
+const OrderSummary = ({ ingridiends, price }) => {
   const ingrSummury = Object.keys(ingridiends).map( ing => {
   return <li key={ing + 'OrderSummary'}><span className="text-capitalize">{ing}</span>: {ingridiends[ing]}</li>
   });
@@ -11,6 +11,7 @@ const OrderSummary = ({ ingridiends }) => {
       <ul>
         {ingrSummury}
       </ul>
+      <h2 className="text-center">Price: <span className="badge badge-secondary">$ {price}</span></h2>
     </>
     )
   };

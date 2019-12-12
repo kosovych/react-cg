@@ -22,3 +22,6 @@ body {
 ul {
   padding-left: 24px;
 }
+button:disabled {
+  cursor: not-allowed;
+}

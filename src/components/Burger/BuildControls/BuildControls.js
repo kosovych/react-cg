@@ -15,7 +15,7 @@ const BuildControls = (
     disableInfo,
     price,
     purchasable,
-    purchasedHandler
+    purchasedToggle
   }) => {
   return (
     <>
@@ -34,7 +34,7 @@ const BuildControls = (
         <button
           className="btn btn-primary"
           disabled={!purchasable}
-          onClick={() => purchasedHandler()}
+          onClick={() => purchasedToggle()}
           >
             Order NOW!
           </button>
