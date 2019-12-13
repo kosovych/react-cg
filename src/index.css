@@ -22,6 +22,18 @@ body {
 ul {
   padding-left: 24px;
 }
+
 button:disabled {
   cursor: not-allowed;
+}
+
+.navbar-collapse {
+  display: block !important;
+  overflow: hidden;
+  max-height: 0px;
+  transition: max-height 0.3s;
+}
+
+.navbar-collapse--open {
+  max-height: 160px;
 }
