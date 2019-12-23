@@ -2,11 +2,12 @@ import React from 'react';
 
 import './Post.css';
 
-const post = (props) => (
-    <article className="Post">
-        <h1>Title</h1>
+const post = ({title, text, author, clicked}) => (
+    <article className="Post" onClick={() => clicked()}>
+        <h1>{ title }</h1>
         <div className="Info">
-            <div className="Author">Author</div>
+            <p>{text.slice(0, 60) + '...'}</p>
+            <div className="Author">{ author }</div>
         </div>
     </article>
 );
