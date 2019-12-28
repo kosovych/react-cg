@@ -19,7 +19,7 @@ const BuildControls = (
   }) => {
   return (
     <>
-      <h2 className="text-center">Price <span className="badge badge-secondary">$ {price.toFixed(2)}</span></h2>
+      <h2 className="text-center">Price <span className="badge badge-secondary">$ {price}</span></h2>
       { controls.map(({ label, type }) => (
         <BuildControl
           disable={disableInfo[type]}

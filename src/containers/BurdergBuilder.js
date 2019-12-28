@@ -3,6 +3,9 @@ import Burger from '../components/Burger/Burger';
 import BuildControls from '../components/Burger/BuildControls/BuildControls';
 import Modal from '../components/ui/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
+import axios from '../axios/order-lost';
+import Spiner from '../components/ui/Spiner';
+import widthErrorHendler from '../hoc/widthErrorHendler';
 
 class BurdergBuilder extends React.Component {
   state = {
@@ -10,12 +13,8 @@ class BurdergBuilder extends React.Component {
     totalPrice: 0,
     purchasable: false,
     purchased: false,
-    ingr: {
-      meat: 0,
-      cheese: 0,
-      salet: 0,
-      becon: 0
-    },
+    loading: false,
+    ingr: null,
     prices: {
       meat: 1.2,
       cheese: 0.5,
@@ -23,6 +22,11 @@ class BurdergBuilder extends React.Component {
       becon: 0.6
     },
   };
+
+  componentWillMount() {
+    axios.get('/ingridients.json')
+      .then(res => this.setState(() => ({ingr: res.data})))
+  }
 
   addIngridiend = (type) => {
     this.setState((prevState) => {
@@ -42,7 +46,7 @@ class BurdergBuilder extends React.Component {
       return count > 0
     });
 
-    this.setState((prevState) => {
+    this.setState(() => {
       return { purchasable: isPurchasable};
     }, () => this.getPrice())
   }
@@ -54,33 +58,67 @@ class BurdergBuilder extends React.Component {
   }
 
   purchasContinue = () => {
-    alert('Purchas Continue');
+    const { ingr, totalPrice } = this.state;
+    const order = {
+      ingr,
+      totalPrice,
+      customer: {
+        address: {
+          country: 'Ukraine',
+          street: 'SomeTest',
+          zipCode: '451212',
+        },
+        email: 'qwerty@qwerty.com',
+        name: 'User Name'
+      },
+      deliveryMethod: 'fatest'
+    };
+    this.setState(() => ({loading: true}));
+    axios.post('/orders.json', order)
+      .then(res => this.setState(() => ({purchased: false, loading: false})))
+      .catch(err => this.setState(() => ({purchased: false, loading: false})));
   }
 
   getPrice = () => {
     let ingrPrice = Object.entries(this.state.ingr).reduce((price, [type, count]) => {
       return price + count * this.state.prices[type];
     }, this.state.price);
-    this.setState({totalPrice: ingrPrice});
+    this.setState({totalPrice: ingrPrice.toFixed(2) });
   }
 
   render() {
-    const { ingr, purchased, purchasable } = this.state;
+    const { ingr, purchased, purchasable, loading } = this.state;
     const disableInfo = {};
     for (let type in ingr) {
       disableInfo[type] = ingr[type] <= 0;
     }
+    let order = (
+      <OrderSummary
+        price={this.state.totalPrice}
+        purchasContinue={this.purchasContinue}
+        ingridiends={this.state.ingr}
+      />
+    )
+    if (loading) {
+      order = <Spiner />
+    }
     return (
       <>
-        <Burger ingr={ingr} />
-        <BuildControls
-          disableInfo={disableInfo}
-          addIng={this.addIngridiend}
-          rmIng={this.removeIngridiend}
-          price={this.state.totalPrice || this.state.price}
-          purchasedToggle={this.purchasedToggle}
-          purchasable={purchasable}
-        />
+        {
+          ingr ? (
+          <>
+            <Burger ingr={ingr} />
+            <BuildControls
+              disableInfo={disableInfo}
+              addIng={this.addIngridiend}
+              rmIng={this.removeIngridiend}
+              price={this.state.totalPrice || this.state.price}
+              purchasedToggle={this.purchasedToggle}
+              purchasable={purchasable}
+            />
+          </>
+          ) : <Spiner />
+        }
         <Modal
           shown={purchased}
           onCloseHandler={this.purchasedToggle}
@@ -92,11 +130,11 @@ class BurdergBuilder extends React.Component {
             </>
           }
           >
-          <OrderSummary price={this.state.totalPrice} purchasContinue={this.purchasContinue} ingridiends={this.state.ingr} />
+          {order}
         </Modal>
       </>
     )
   } 
 };
 
-export default BurdergBuilder;
+export default widthErrorHendler(BurdergBuilder, axios);
