@@ -1,56 +1,40 @@
 import React, { Component, StrictMode } from 'react';
-// import axios from 'axios';
-import axios from '../../axios';
+import { Route, NavLink, Switch } from 'react-router-dom';
+import Posts from './Posts';
+// import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+import FullPost from './FullPost/FullPost';
 
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
 
+const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'));
+
 class Blog extends Component {
-	state = {
-		posts: [],
-		selectedId: null,
-		error: false
-	}
-
-	componentDidMount() {
-		axios.get('posts')
-					.then( res => {
-						const posts = res.data.slice(0, 4).map( post => ({...post, author: 'Yaroslav'}) )
-						this.setState({ posts: posts })
-					})
-					.catch( err => this.setState({error: true}))
-	}
-
-	postSelectedHandler = (id) => {
-		this.setState({selectedId: id})
-	}
-
 	render () {
-		let posts = <strong>Ooops...</strong>;
-		if (!this.state.error) {
-			posts = this.state.posts.map(post =>
-				(<Post
-					clicked={() => this.postSelectedHandler(post.id)}
-					key={post.id}
-					title={post.title}
-					author={post.author}
-					text={post.body}
-				/>
-			));
-		}
+
 		return (
 			<div>
-				<section className="Posts">
-					{posts}
-				</section>
-				<section>
-					<FullPost id={this.state.selectedId} />
-				</section>
-				<section>
-					<NewPost />
-				</section>
+				<header className="Header">
+					<nav className="Header__nav">
+						<ul className="Header__nav-list">
+							<li className="Header__nav-list-item">
+								{/* <a className="Header__nav-list-item-link" href="/">Home</a> */}
+								<NavLink exact activeClassName="active" className="Header__nav-list-item-link" to="/">Posts</NavLink>
+							</li>
+							<li className="Header__nav-list-item">
+								{/* <a className="Header__nav-list-item-link" href="/new-post">New Post</a> */}
+								<NavLink exact activeClassName="active" className="Header__nav-list-item-link" to="/new-post">New Post</NavLink>
+							</li>
+						</ul>
+					</nav>
+				</header>
+				<Switch>
+					{/* <Route path="/new-post" component={NewPost} /> */}
+					<Route path="/new-post" component={AsyncNewPost} />
+					<Route path="/" component={Posts} />
+					<Route render={() => <h1>Not found</h1>} />
+				</Switch>
+				 
 			</div>
 		);
 	}

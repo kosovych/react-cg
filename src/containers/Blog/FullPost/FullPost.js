@@ -7,21 +7,29 @@ class FullPost extends Component {
 	state = {
 		loadedPost: null
 	}
-	
-	componentDidUpdate() {
-		const { id } = this.props;
+
+	load() {
+		const { id } = this.props.match.params;
+		console.log(this.props);
 		const { loadedPost } = this.state;
 		if (id) {
-			if( !loadedPost || (loadedPost && loadedPost.id !== id)) {
+			if( !loadedPost || (loadedPost && loadedPost.id != id)) {
 				axios.get(`/posts/${id}`)
 				.then( res => this.setState({loadedPost: res.data}));
 			}
 		}
 	}
+	
+	componentDidMount() {
+		this.load();
+	}
+
+	componentDidUpdate() {
+		this.load();
+	}
 
 	onDeletePost = () => {
-		const { loadedPost } = this.state;
-		axios.delete(`/posts/${loadedPost.id}`)
+		axios.delete(`/posts/${this.props.match.params.id}`)
 			.then( res => console.log(res))
 	}
 
