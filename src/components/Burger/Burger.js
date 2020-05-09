@@ -3,8 +3,8 @@ import BurgerIngridients from './BurgerIngridients/BurgerIngridients';
 import styles from './Burger.module.css';
 
 
-
-const Burger = ({ ingr }) => {
+const Burger = ({ ingr, ...rest }) => {
+  
   let arrOfIngr = Object.keys(ingr)
     .map((ingKey => [...Array(ingr[ingKey])]
       .map( (_, i) => <BurgerIngridients key={ingKey + i} type={ingKey} />) ))

@@ -6,8 +6,9 @@ import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../axios/order-lost';
 import Spiner from '../components/ui/Spiner';
 import widthErrorHendler from '../hoc/widthErrorHendler';
+import { withRouter } from 'react-router-dom';
 
-class BurdergBuilder extends React.Component {
+class BurgerBuilder extends React.Component {
   state = {
     price: 3,
     totalPrice: 0,
@@ -58,25 +59,18 @@ class BurdergBuilder extends React.Component {
   }
 
   purchasContinue = () => {
-    const { ingr, totalPrice } = this.state;
-    const order = {
-      ingr,
-      totalPrice,
-      customer: {
-        address: {
-          country: 'Ukraine',
-          street: 'SomeTest',
-          zipCode: '451212',
-        },
-        email: 'qwerty@qwerty.com',
-        name: 'User Name'
-      },
-      deliveryMethod: 'fatest'
-    };
-    this.setState(() => ({loading: true}));
-    axios.post('/orders.json', order)
-      .then(res => this.setState(() => ({purchased: false, loading: false})))
-      .catch(err => this.setState(() => ({purchased: false, loading: false})));
+    const { ingr } = this.state;
+    const query = [];
+    for (let prop in ingr) {
+      query.push( `${encodeURIComponent(prop)}=${encodeURIComponent(ingr[prop])}` )
+    }
+    query.push(`totalPrice=${this.state.totalPrice}`)
+    this.props.history.push(
+      {
+        pathname: '/checkout',
+        search: `?${query.join('&')}`
+      }
+    );
   }
 
   getPrice = () => {
@@ -137,4 +131,4 @@ class BurdergBuilder extends React.Component {
   } 
 };
 
-export default widthErrorHendler(BurdergBuilder, axios);
+export default widthErrorHendler(withRouter(BurgerBuilder), axios);
