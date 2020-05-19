@@ -16,8 +16,10 @@ class Orders extends React.Component {
             .then(res => {
                 let orders = [];
                 for ( let order in res.data) {
-                    orders.push({ingr: res.data[order].ingr, totalPrice: res.data[order].totalPrice, id: order})
+                    orders.push({ingredients: res.data[order].ingredients, totalPrice: res.data[order].totalPrice, id: order})
                 };
+                console.log(orders);
+                
                 this.setState({loading: false, orders})
             }
         )

@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const OrderSummary = ({ ingridiends, price }) => {
-  const ingrSummury = Object.keys(ingridiends).map( ing => {
-  return <li key={ing + 'OrderSummary'}><span className="text-capitalize">{ing}</span>: {ingridiends[ing]}</li>
+const OrderSummary = ({ ingredients, startPrice, totalPrice }) => {
+  const ingrSummury = Object.keys(ingredients).map( ing => {
+  return <li key={ing + 'OrderSummary'}><span className="text-capitalize">{ing}</span>: {ingredients[ing]}</li>
   });
   return (
     <>
@@ -11,9 +12,23 @@ const OrderSummary = ({ ingridiends, price }) => {
       <ul>
         {ingrSummury}
       </ul>
-      <h2 className="text-center">Price: <span className="badge badge-secondary">$ {price}</span></h2>
+      <h2 className="text-center">
+        Price:
+        {''}
+        <span className="badge badge-secondary">
+          $ {totalPrice || startPrice}
+        </span>
+      </h2>
     </>
     )
   };
 
-export default OrderSummary;
+  const mapStateToProps = state => {
+    return {
+      ingredients: state.ingredients,
+      totalPrice: state.totalPrice,
+      startPrice: state.startPrice,
+    }
+  }
+
+export default connect(mapStateToProps)(OrderSummary);

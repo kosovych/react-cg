@@ -5,7 +5,7 @@ const CheckoutSummary = ({ ingr, onContinueCheckout, onCancelCheckout }) => {
     return (
         <div style={{textAlign: 'center'}}>
             <h1>We hope it's taste well</h1>
-            <Burger ingr={ingr} />
+            <Burger />
             <button
                 onClick={() => onCancelCheckout()}
                 type="button"

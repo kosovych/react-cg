@@ -1,5 +1,6 @@
 import React from 'react';
 import BuildControl from './BuildControl/BuildControl';
+import { connect } from 'react-redux';
 
 const controls = [
   { label: 'Meat', type: 'meat' },
@@ -13,13 +14,17 @@ const BuildControls = (
     addIng,
     rmIng,
     disableInfo,
-    price,
-    purchasable,
-    purchasedToggle
+    totalPrice,
+    startPrice,
+    purchasedToggle,
+    ingredients
   }) => {
+  const isPurchasable = Object.entries(ingredients).some(([type, count]) => {
+    return count > 0
+  });
   return (
     <>
-      <h2 className="text-center">Price <span className="badge badge-secondary">$ {price}</span></h2>
+      <h2 className="text-center">Price <span className="badge badge-secondary">$ {totalPrice || startPrice}</span></h2>
       { controls.map(({ label, type }) => (
         <BuildControl
           disable={disableInfo[type]}
@@ -33,7 +38,7 @@ const BuildControls = (
       <div className="d-flex justify-content-center btn-lg">
         <button
           className="btn btn-primary"
-          disabled={!purchasable}
+          disabled={!isPurchasable}
           onClick={() => purchasedToggle()}
           >
             Order NOW!
@@ -43,4 +48,12 @@ const BuildControls = (
   );
 }
 
-export default BuildControls;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+    startPrice: state.startPrice,
+  }
+}
+
+export default connect(mapStateToProps)(BuildControls);

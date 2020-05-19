@@ -7,6 +7,7 @@ import axios from '../axios/order-lost';
 import Spiner from '../components/ui/Spiner';
 import widthErrorHendler from '../hoc/widthErrorHendler';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class BurgerBuilder extends React.Component {
   state = {
@@ -29,29 +30,6 @@ class BurgerBuilder extends React.Component {
       .then(res => this.setState(() => ({ingr: res.data})))
   }
 
-  addIngridiend = (type) => {
-    this.setState((prevState) => {
-      return { ingr: { ...prevState.ingr, [type]: prevState.ingr[type] + 1 }}
-    }, () => this.updatePurchasable()); 
-  };
-
-  removeIngridiend = (type) => {
-    if(this.state.ingr[type] <= 0) return
-    this.setState((prevState) => {
-      return { ingr: { ...prevState.ingr, [type]: prevState.ingr[type] - 1 }}
-    }, () => this.updatePurchasable()); 
-  }
-
-  updatePurchasable = () => {
-    const isPurchasable = Object.entries(this.state.ingr).some(([type, count]) => {
-      return count > 0
-    });
-
-    this.setState(() => {
-      return { purchasable: isPurchasable};
-    }, () => this.getPrice())
-  }
-
   purchasedToggle = () => {
     this.setState( (prevState) => {
       return { purchased: !prevState.purchased }
@@ -59,38 +37,18 @@ class BurgerBuilder extends React.Component {
   }
 
   purchasContinue = () => {
-    const { ingr } = this.state;
-    const query = [];
-    for (let prop in ingr) {
-      query.push( `${encodeURIComponent(prop)}=${encodeURIComponent(ingr[prop])}` )
-    }
-    query.push(`totalPrice=${this.state.totalPrice}`)
-    this.props.history.push(
-      {
-        pathname: '/checkout',
-        search: `?${query.join('&')}`
-      }
-    );
-  }
-
-  getPrice = () => {
-    let ingrPrice = Object.entries(this.state.ingr).reduce((price, [type, count]) => {
-      return price + count * this.state.prices[type];
-    }, this.state.price);
-    this.setState({totalPrice: ingrPrice.toFixed(2) });
+    this.props.history.push('/checkout');
   }
 
   render() {
-    const { ingr, purchased, purchasable, loading } = this.state;
+    const { purchased, loading } = this.state;
     const disableInfo = {};
-    for (let type in ingr) {
-      disableInfo[type] = ingr[type] <= 0;
+    for (let type in this.props.ingredients) {
+      disableInfo[type] = this.props.ingredients[type] <= 0;
     }
     let order = (
       <OrderSummary
-        price={this.state.totalPrice}
         purchasContinue={this.purchasContinue}
-        ingridiends={this.state.ingr}
       />
     )
     if (loading) {
@@ -99,16 +57,12 @@ class BurgerBuilder extends React.Component {
     return (
       <>
         {
-          ingr ? (
+          this.props.ingredients ? (
           <>
-            <Burger ingr={ingr} />
+            <Burger />
             <BuildControls
               disableInfo={disableInfo}
-              addIng={this.addIngridiend}
-              rmIng={this.removeIngridiend}
-              price={this.state.totalPrice || this.state.price}
               purchasedToggle={this.purchasedToggle}
-              purchasable={purchasable}
             />
           </>
           ) : <Spiner />
@@ -131,4 +85,11 @@ class BurgerBuilder extends React.Component {
   } 
 };
 
-export default widthErrorHendler(withRouter(BurgerBuilder), axios);
+const mapStateToProps = state => {
+  return {
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+  }
+}
+
+export default widthErrorHendler(withRouter(connect(mapStateToProps)(BurgerBuilder)), axios);

@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './style.module.css';
+import { connect } from 'react-redux';
+import * as actions from '../../../redux/actions';
 import axios from '../../../axios/order-lost';
 import Spiner from '../../../components/ui/Spiner/index';
 import Input from '../../../components/ui/Input';
@@ -103,7 +105,7 @@ class ContactData extends React.Component {
 
     formHandler = (event) => { 
         event.preventDefault();
-        const { ingr, totalPrice} = this.props;
+        const { ingredients, totalPrice} = this.props;
         const { orderForm } = this.state;
         const orderInfo = {};
         for (const input in orderForm) {
@@ -111,7 +113,7 @@ class ContactData extends React.Component {
         }
 
         const order = {
-            ingr,
+            ingredients,
             totalPrice,
             orderInfo
         };
@@ -122,6 +124,7 @@ class ContactData extends React.Component {
             res => {
                 this.setState(() => ({ loading: false}));
                 this.props.history.push('/');
+                this.props.resetIngridients();
             }
         )
         .catch(err => this.setState(() => ({ loading: false})));
@@ -208,4 +211,15 @@ class ContactData extends React.Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => ({
+    ingredients: state.ingredients,
+    totalPrice: state.totalPrice,
+});
+
+const mapDispathToProps = dispatch => {
+    return {
+        resetIngridients: () => dispatch({type: actions.RESET_INGRIDIENTS})
+    }
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(ContactData);
