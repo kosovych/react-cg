@@ -1,9 +1,11 @@
-import * as actions from './actions';
+import * as actions from '../actions/actionTypes';
 
 const initState = {
-    ingredients: {},
+    ingredients: null,
     totalPrice: 0,
     startPrice: 3,
+    loading: true,
+    error: false,
     prices: {
         meat: 1.2,
         cheese: 0.5,
@@ -56,13 +58,26 @@ const reduсer = (state=initState, action) => {
                 ...state,
                 totalPrice: state.startPrice + ingrPrice
             }
-        case actions.RESET_INGRIDIENTS:
+        case actions.RESET_Ingredients:
             return {
                 ...state,
                 ingredients: {},
                 totalPrice: 0,
             };
-            
+        case actions.SET_INGRIDIEND:
+            console.log(action);
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                ingredients: action.ingredients,
+            };
+        case actions.SET_ERROR:
+            console.log(actions.SET_ERROR);
+            return {
+                ...state,
+                error: action.value,
+            };
     }
     return state
 }

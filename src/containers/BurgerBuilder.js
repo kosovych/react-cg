@@ -6,29 +6,14 @@ import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../axios/order-lost';
 import Spiner from '../components/ui/Spiner';
 import widthErrorHendler from '../hoc/widthErrorHendler';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { getIngredients } from '../redux/actions/index';
 
 class BurgerBuilder extends React.Component {
   state = {
-    price: 3,
-    totalPrice: 0,
     purchasable: false,
     purchased: false,
-    loading: false,
-    ingr: null,
-    prices: {
-      meat: 1.2,
-      cheese: 0.5,
-      salet: 0.1,
-      becon: 0.6
-    },
   };
-
-  componentWillMount() {
-    axios.get('/ingridients.json')
-      .then(res => this.setState(() => ({ingr: res.data})))
-  }
 
   purchasedToggle = () => {
     this.setState( (prevState) => {
@@ -40,8 +25,12 @@ class BurgerBuilder extends React.Component {
     this.props.history.push('/checkout');
   }
 
+  componentDidMount = () =>  {
+      this.props.onIngredientsInit();
+  }
+
   render() {
-    const { purchased, loading } = this.state;
+    const { purchased } = this.state;
     const disableInfo = {};
     for (let type in this.props.ingredients) {
       disableInfo[type] = this.props.ingredients[type] <= 0;
@@ -51,7 +40,7 @@ class BurgerBuilder extends React.Component {
         purchasContinue={this.purchasContinue}
       />
     )
-    if (loading) {
+    if (this.props.loading) {
       order = <Spiner />
     }
     return (
@@ -67,6 +56,7 @@ class BurgerBuilder extends React.Component {
           </>
           ) : <Spiner />
         }
+        {this.props.error && <p className="text-center">Ingredients can't be loaded</p>}
         <Modal
           shown={purchased}
           onCloseHandler={this.purchasedToggle}
@@ -89,7 +79,16 @@ const mapStateToProps = state => {
   return {
     ingredients: state.ingredients,
     totalPrice: state.totalPrice,
+    loading: state.loading,
+    error: state.error,
   }
 }
 
-export default widthErrorHendler(withRouter(connect(mapStateToProps)(BurgerBuilder)), axios);
+const mapDispatchToProps = dispatch => {
+  return {
+    onIngredientsInit: () => dispatch(getIngredients())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(widthErrorHendler( BurgerBuilder, axios ));
+

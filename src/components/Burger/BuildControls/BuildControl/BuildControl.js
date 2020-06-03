@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './BuildControl.module.css';
 import { connect } from 'react-redux';
-import * as actions from '../../../../redux/actions';
+import {addIngredient, removeIngredient} from '../../../../redux/actions/index';
 
 const BuildControl= ({ label, addIngridiend, type, removeIngridiend, disable }) => {
   return (
@@ -28,8 +28,8 @@ const BuildControl= ({ label, addIngridiend, type, removeIngridiend, disable }) 
 
 const mapDispathToProps = dispatch => {
   return {
-    addIngridiend: (ingredientType) => dispatch({ type: actions.ADD_INGRIDIEND, ingredientType, cb: actions.CALC_PRICE }),
-    removeIngridiend: (ingredientType) => dispatch({ type: actions.REMOVE_INGRIDIEND, ingredientType, cb: actions.CALC_PRICE }),
+    addIngridiend: (ingredientType) => dispatch(addIngredient(ingredientType)),
+    removeIngridiend: (ingredientType) => dispatch(removeIngredient(ingredientType)),
   }
 }
 

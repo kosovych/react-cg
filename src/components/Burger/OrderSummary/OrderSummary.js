@@ -8,7 +8,7 @@ const OrderSummary = ({ ingredients, startPrice, totalPrice }) => {
   return (
     <>
       <h2>Your order</h2>
-      <p>Burger with ingridients</p>
+      <p>Burger with ingredients</p>
       <ul>
         {ingrSummury}
       </ul>

@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './style.module.css';
 import { connect } from 'react-redux';
-import * as actions from '../../../redux/actions';
+import * as actions from '../../../redux/actions/actionTypes';
 import axios from '../../../axios/order-lost';
 import Spiner from '../../../components/ui/Spiner/index';
 import Input from '../../../components/ui/Input';
@@ -124,7 +124,7 @@ class ContactData extends React.Component {
             res => {
                 this.setState(() => ({ loading: false}));
                 this.props.history.push('/');
-                this.props.resetIngridients();
+                this.props.resetIngredients();
             }
         )
         .catch(err => this.setState(() => ({ loading: false})));
@@ -218,7 +218,7 @@ const mapStateToProps = state => ({
 
 const mapDispathToProps = dispatch => {
     return {
-        resetIngridients: () => dispatch({type: actions.RESET_INGRIDIENTS})
+        resetIngredients: () => dispatch({type: actions.RESET_Ingredients})
     }
 }
 

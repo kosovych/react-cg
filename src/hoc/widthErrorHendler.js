@@ -30,7 +30,7 @@ const widthErrorHendler = (Wrapper, axios) => {
           >
             {this.state.error ? this.state.error.message : null}
           </Modal>
-          <Wrapper />
+          <Wrapper {...this.props} />
         </>
       )
     }
