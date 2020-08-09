@@ -20,7 +20,7 @@ class Orders extends React.Component {
                 };
                 console.log(orders);
                 
-                this.setState({loading: false, orders})
+                this.setState(() => ({loading: false, orders}), () => console.log(this.state))
             }
         )
 

@@ -3,6 +3,7 @@ import React from 'react';
 const Input = ({elementType, invalidClass, elementConfig, errorMessage, showError, changed}) => {
     let input = null;
     let {id, labelTxt, ...rest} = elementConfig;
+    
     switch (elementType) {
         case 'input':
             input = (

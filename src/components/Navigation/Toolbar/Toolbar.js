@@ -24,6 +24,9 @@ const Toolbar = () => {
               <li className="nav-item">
                 <NavLink activeClassName="active" className="nav-link" to="/orders">Orders</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink activeClassName="active" className="nav-link" to="/auth">Auth</NavLink>
+              </li>
             </ul>
           </nav>
         </div>

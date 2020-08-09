@@ -50,9 +50,9 @@ const BuildControls = (
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice,
-    startPrice: state.startPrice,
+    ingredients: state.burgerBuilder.ingredients,
+    totalPrice: state.burgerBuilder.totalPrice,
+    startPrice: state.burgerBuilder.startPrice,
   }
 }
 
