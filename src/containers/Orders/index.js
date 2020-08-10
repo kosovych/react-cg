@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Order from '../../components/Order';
 import axios from '../../axios/order-lost';
 import widthErrorHendler from '../../hoc/widthErrorHendler';
@@ -12,7 +13,7 @@ class Orders extends React.Component {
     componentWillMount() {
         this.setState({loading: true})
         axios
-            .get('/orders.json')
+            .get(`/orders.json?auth=${this.props.token}`)
             .then(res => {
                 let orders = [];
                 for ( let order in res.data) {
@@ -44,4 +45,8 @@ class Orders extends React.Component {
     }
 }
 
-export default widthErrorHendler(Orders, axios);
+const mapStateToProps = (state) => ({
+    token: state.auth.token,
+});
+
+export default widthErrorHendler(connect(mapStateToProps, null)(Orders), axios);

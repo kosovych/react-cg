@@ -24,7 +24,6 @@ export const purchaseStart = () => {
             orders.push({ingredients: res.data[order].ingredients, totalPrice: res.data[order].totalPrice, id: order})
         };
         console.log(orders);
-        
         this.setState({loading: false, orders})
     }
   )

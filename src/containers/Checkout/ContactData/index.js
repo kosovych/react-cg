@@ -117,9 +117,8 @@ class ContactData extends React.Component {
             totalPrice,
             orderInfo
         };
-        console.dir(order);
         this.setState(() => ({loading: true}));
-        axios.post('/orders.json', order)
+        axios.post(`/orders.json?auth=${this.props.token}`, order)
         .then(
             res => {
                 this.setState(() => ({ loading: false}));
@@ -132,7 +131,7 @@ class ContactData extends React.Component {
 
     isValid = (value, validation) => {
         const { required, min, max } = validation;
-        const trimedValue = value .trim();
+        const trimedValue = value.trim();
         let errorMessage = '';
         let isValid = false;
         if(required) {
@@ -214,6 +213,7 @@ class ContactData extends React.Component {
 const mapStateToProps = state => ({
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
+    token: state.auth.token,
 });
 
 const mapDispathToProps = dispatch => {

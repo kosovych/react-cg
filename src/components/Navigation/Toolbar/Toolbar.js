@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import Logo from '../../Logo/Logo';
 import Backdrop from '../../../components/ui/Backdrop/Backdrop';
 import { Link, NavLink } from 'react-router-dom'
 
-const Toolbar = () => {
+const Toolbar = (props) => {
   const [ isOpen, setOpen ] = useState(false);
   return (
     <>
@@ -25,7 +26,12 @@ const Toolbar = () => {
                 <NavLink activeClassName="active" className="nav-link" to="/orders">Orders</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink activeClassName="active" className="nav-link" to="/auth">Auth</NavLink>
+                {
+                  props.isLogin ?
+                  <NavLink activeClassName="active" className="nav-link" to="/logout">Logout</NavLink>
+                  :
+                  <NavLink activeClassName="active" className="nav-link" to="/auth">Auth</NavLink>
+                }
               </li>
             </ul>
           </nav>
@@ -36,4 +42,8 @@ const Toolbar = () => {
   )
 };
 
-export default Toolbar;
+const mapStateToProps = (state) => ({
+  isLogin: state.auth.token !== null,
+})
+
+export default connect(mapStateToProps)(Toolbar);

@@ -25,7 +25,7 @@ const asyncLogout = (expiresIn) => (
     dispatch => {
         setTimeout(() => {
             dispatch(logout());
-        }, expiresIn);
+        }, expiresIn * 1000);
     }
 );
 
