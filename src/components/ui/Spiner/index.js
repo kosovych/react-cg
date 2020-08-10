@@ -1,8 +1,11 @@
 import React from "react";
 
-const Spiner = () => (
+const Spiner = ({ className }) => (
   <div className="text-center">
-    <div className="spinner-border p-5" role="status">
+    <div
+      className={`spinner-border ${className || 'p-5'}`}
+      role="status"
+    >
       <span className="sr-only">Loading...</span>
     </div>
   </div>

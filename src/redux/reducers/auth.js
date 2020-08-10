@@ -1,7 +1,8 @@
 import {
     AUTH_START,
     AUTH_FAIL,
-    AUTH_SUCCESS
+    AUTH_SUCCESS,
+    AUTH_LOGOUT
 } from '../actions/actionTypes';
 
 const initState = {
@@ -15,6 +16,7 @@ const authStart = (state) => {
     return {
         ...state,
         loading: true,
+        error: null,
     }
 };
 
@@ -35,11 +37,22 @@ const authSuccess = (state, action) => {
         token: action.token,
     }
 };
+
+const authLogout = (state) => {
+    console.log('wewe');
+    return {
+        ...state,
+        token: null,
+        userId: null,
+    }
+}
+
 const reduser = (state=initState, action) => {
     switch (action.type) {
         case AUTH_START: return authStart(state, action);
         case AUTH_FAIL: return authFail(state, action);
         case AUTH_SUCCESS: return authSuccess(state, action);
+        case AUTH_LOGOUT: return authLogout(state);
         default: return state
     }
 }

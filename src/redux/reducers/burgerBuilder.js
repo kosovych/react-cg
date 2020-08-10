@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import * as actions from '../actions/actionTypes';
 
 const initState = {

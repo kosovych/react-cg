@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Input from '../../components/ui/Input';
 import classes from '../Checkout/ContactData/style.module.css';
 import { auth } from '../../redux/actions';
+import Spiner from '../../components/ui/Spiner';
 
 class Auth extends Component {
     state = {
@@ -43,7 +44,7 @@ class Auth extends Component {
 
     isValid = (value, validation) => {   
         const { required, min, max } = validation;
-        const trimedValue = value .trim();
+        const trimedValue = value.trim();
         let errorMessage = '';
         let isValid = false;
         if(required) {
@@ -105,15 +106,19 @@ class Auth extends Component {
             )
         }
         const form = [...inputs];
+        let error = this.props.error ? <p className="alert alert-danger" role="alert">{this.props.error}</p> : null;
         return (
             <div style={{'marginTop': '112px'}} className={classes.Form}>
                 <h2>{ this.state.isSignUp ? 'SIGN UP' : 'SIGN IN' }</h2>
+                { error }
                 <form onSubmit={(evt) => this.onSubmitHandler(evt)}>
                     {form}
                     <button
                         type="submit"
-                        className="btn btn-primary mb-3"
-                    >
+                        disabled={this.props.loading}
+                        className="btn btn-primary mb-3 d-inline-flex align-items-center"
+                        >
+                        {this.props.loading ? <Spiner className="p-1 mr-2" /> : null }
                         Submit
                     </button>
                 </form>
@@ -128,8 +133,13 @@ class Auth extends Component {
     }
 };
 
+const mapStateToProps = state => ({
+    error: state.auth.error,
+    loading: state.auth.loading,
+});
+
 const mapDispatchToProps = dispatch => ({
     onAuth: (email, password, isSignUp) => dispatch(auth(email, password, isSignUp)),
 });
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

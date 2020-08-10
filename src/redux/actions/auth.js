@@ -1,4 +1,4 @@
-import {AUTH_START, AUTH_FINISH, AUTH_FAIL, AUTH_SUCCESS} from './actionTypes';
+import {AUTH_START, AUTH_FAIL, AUTH_LOGOUT, AUTH_SUCCESS} from './actionTypes';
 import axios from 'axios';
 
 const authStart = (authData) => ({
@@ -9,13 +9,25 @@ const authStart = (authData) => ({
 const authFail = (error) => ({
     type: AUTH_FAIL,
     error,
-})
+});
 
 const authSuccess = (data) => ({
     type: AUTH_SUCCESS,
     userId: data.localId,
     token: data.idToken,
-})
+});
+
+const logout = () => ({
+    type: AUTH_LOGOUT,
+});
+
+const asyncLogout = (expiresIn) => (
+    dispatch => {
+        setTimeout(() => {
+            dispatch(logout());
+        }, expiresIn);
+    }
+);
 
 export const auth = (email, password, isSignUp) => {
     return dispatch => {
@@ -32,10 +44,11 @@ export const auth = (email, password, isSignUp) => {
             .then(res => {
                 console.log(res.data);
                 dispatch(authSuccess(res.data))
+                dispatch(asyncLogout(res.data.expiresIn));
             })
             .catch(err => {
-                console.log(err);
-                dispatch(authFail());
+                console.dir(err);
+                dispatch(authFail(err.response.data.error.message));
             })
     }
 };
