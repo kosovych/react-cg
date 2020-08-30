@@ -10,7 +10,6 @@ const widthErrorHendler = (Wrapper, axios) => {
     componentWillMount() {
       this.reqInterseptor = axios.interceptors.request.use();
       this.resInterseptor = axios.interceptors.response.use(res => res, error => {
-        console.dir(error);
         this.setState(() => ({error: error}));
         return error;
       });

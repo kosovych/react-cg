@@ -19,9 +19,7 @@ class Orders extends React.Component {
                 for ( let order in res.data) {
                     orders.push({ingredients: res.data[order].ingredients, totalPrice: res.data[order].totalPrice, id: order})
                 };
-                console.log(orders);
-                
-                this.setState(() => ({loading: false, orders}), () => console.log(this.state))
+                this.setState(() => ({loading: false, orders}))
             }
         )
 

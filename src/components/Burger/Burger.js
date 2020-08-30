@@ -4,7 +4,6 @@ import styles from './Burger.module.css';
 import { connect } from 'react-redux';
 
 const Burger = ({ ingredients, ...rest }) => {
-  console.log(ingredients);
   let arrOfingredients = Object.keys(ingredients)
     .map((ingKey => [...Array(ingredients[ingKey])]
       .map( (_, i) => <BurgerIngredients key={ingKey + i} type={ingKey} />) ))

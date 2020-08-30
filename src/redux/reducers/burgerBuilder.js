@@ -54,7 +54,6 @@ const reduсer = (state=initState, action) => {
             let ingrPrice = Object.entries(state.ingredients).reduce((price, [type, count]) => {
                 return price + count * state.prices[type];
               }, 0);
-            console.log(ingrPrice);
             return {
                 ...state,
                 totalPrice: state.startPrice + ingrPrice
@@ -66,7 +65,6 @@ const reduсer = (state=initState, action) => {
                 totalPrice: 0,
             };
         case actions.SET_INGRIDIEND:
-            console.log(action);
             return {
                 ...state,
                 loading: false,
@@ -74,7 +72,6 @@ const reduсer = (state=initState, action) => {
                 ingredients: action.ingredients,
             };
         case actions.SET_ERROR:
-            console.log(actions.SET_ERROR);
             return {
                 ...state,
                 error: action.value,

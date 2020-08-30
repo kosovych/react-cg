@@ -39,7 +39,6 @@ const authSuccess = (state, action) => {
 };
 
 const authLogout = (state) => {
-    console.log('wewe');
     return {
         ...state,
         token: null,

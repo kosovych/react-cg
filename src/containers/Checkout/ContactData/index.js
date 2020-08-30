@@ -171,7 +171,6 @@ class ContactData extends React.Component {
         const validationArray = [];
         const { orderForm } = this.state;
         for(const input in orderForm) {
-            console.log(input);
             if(orderForm[input].validation) {
                 validationArray.push(orderForm[input].valid);
             }

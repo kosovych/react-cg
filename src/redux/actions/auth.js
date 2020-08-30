@@ -17,11 +17,11 @@ const authSuccess = (data) => ({
     token: data.idToken,
 });
 
-const logout = () => ({
+export const logout = () => ({
     type: AUTH_LOGOUT,
 });
 
-const asyncLogout = (expiresIn) => (
+const asyncLogin = (expiresIn) => (
     dispatch => {
         setTimeout(() => {
             dispatch(logout());
@@ -42,12 +42,10 @@ export const auth = (email, password, isSignUp) => {
         axios
             .post(isSignUp ? signUpUrl : signInUp, authData)
             .then(res => {
-                console.log(res.data);
                 dispatch(authSuccess(res.data))
-                dispatch(asyncLogout(res.data.expiresIn));
+                dispatch(asyncLogin(res.data.expiresIn));
             })
             .catch(err => {
-                console.dir(err);
                 dispatch(authFail(err.response.data.error.message));
             })
     }

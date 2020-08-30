@@ -22,9 +22,11 @@ const Toolbar = (props) => {
               <li className="nav-item">
                 <NavLink activeClassName="active" exact className="nav-link" to="/">Burger Builder</NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink activeClassName="active" className="nav-link" to="/orders">Orders</NavLink>
-              </li>
+              {props.isLogin && (
+                <li className="nav-item">
+                  <NavLink activeClassName="active" className="nav-link" to="/orders">Orders</NavLink>
+                </li>
+              )}
               <li className="nav-item">
                 {
                   props.isLogin ?

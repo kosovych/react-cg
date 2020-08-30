@@ -24,8 +24,6 @@ export const setIngredients = (ingredients) => {
 }
 
 export const setError = (hasError) => {
-    console.log(`actopn: ${actionTypes.SET_ERROR}`);
-    
     return {
         type: actionTypes.SET_ERROR,
         value: hasError,
@@ -36,7 +34,7 @@ export const getIngredients = () => {
     return dispatch => {
         axios.get('/ingredients.json')
         .then(res => dispatch(setIngredients(res.data)))
-        .catch(err => console.log('ERROR'))
+        .catch(err => err)
     }
 }
 
