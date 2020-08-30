@@ -1,6 +1,7 @@
 import React from 'react';
 import BuildControl from './BuildControl/BuildControl';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const controls = [
   { label: 'Meat', type: 'meat' },
@@ -17,7 +18,8 @@ const BuildControls = (
     totalPrice,
     startPrice,
     purchasedToggle,
-    ingredients
+    ingredients,
+    isAuth
   }) => {
   const isPurchasable = Object.entries(ingredients).some(([type, count]) => {
     return count > 0
@@ -36,13 +38,20 @@ const BuildControls = (
         />)
       )}
       <div className="d-flex justify-content-center btn-lg">
-        <button
-          className="btn btn-primary"
-          disabled={!isPurchasable}
-          onClick={() => purchasedToggle()}
-          >
-            Order NOW!
+        {isAuth ? (
+          <button
+            className="btn btn-primary"
+            disabled={!isPurchasable}
+            onClick={() => purchasedToggle()}
+            >
+              Order NOW!
           </button>
+        ) : (
+          <Link to="/auth">
+            Sign in to continue
+          </Link>
+        )}
+
       </div>
     </>
   );
@@ -53,6 +62,7 @@ const mapStateToProps = state => {
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     startPrice: state.burgerBuilder.startPrice,
+    isAuth: state.auth.token !== null,
   }
 }
 

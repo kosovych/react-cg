@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Input from '../../components/ui/Input';
 import classes from '../Checkout/ContactData/style.module.css';
 import { auth } from '../../redux/actions';
+import { Redirect } from 'react-router-dom';
 import Spiner from '../../components/ui/Spiner';
 
 class Auth extends Component {
@@ -130,6 +131,7 @@ class Auth extends Component {
                 >
                     Switch to { !this.state.isSignUp ? 'SIGN UP' : 'SIGN IN' }
                 </button>
+                {this.props.isAuth && <Redirect to="/" />}
             </div>
         );
     }
@@ -138,6 +140,7 @@ class Auth extends Component {
 const mapStateToProps = state => ({
     error: state.auth.error,
     loading: state.auth.loading,
+    isAuth: state.auth.token !== null,
 });
 
 const mapDispatchToProps = dispatch => ({
