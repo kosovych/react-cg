@@ -1,6 +1,6 @@
 import React from "react";
 
-const Spiner = ({ className }) => (
+const Spinner = ({ className }) => (
   <div className="text-center">
     <div
       className={`spinner-border ${className || 'p-5'}`}
@@ -11,4 +11,4 @@ const Spiner = ({ className }) => (
   </div>
 );
 
-export default Spiner;
+export default Spinner;

@@ -13,39 +13,42 @@ const initState = {
         salet: 0.1,
         becon: 0.6
     },
+    isBuildingBugger: false,
 }
 
-const reduсer = (state=initState, action) => {
+const reducer = (state=initState, action) => {
     let ingredientTypeValue;
     let newState;
     switch (action.type) {
-        case actions.ADD_INGRIDIEND:
+        case actions.ADD_INGREDIENTS:
             ingredientTypeValue = state.ingredients[action.ingredientType] ? state.ingredients[action.ingredientType] : 0;
             newState = {
                 ...state,
+                isBuildingBugger: true,
                 ingredients: {
                     ...state.ingredients,
                     [action.ingredientType]: ingredientTypeValue + 1
                 }
             };
             if(action.cb) {
-                return reduсer(newState, {type: action.cb});
+                return reducer(newState, {type: action.cb});
             }
             else {
                 return newState;
             }
-        case actions.REMOVE_INGRIDIEND:
+        case actions.REMOVE_INGREDIENTS:
             ingredientTypeValue = state.ingredients[action.ingredientType] ? state.ingredients[action.ingredientType] : 0;
             if(ingredientTypeValue === 0) return state;
             newState = {
                 ...state,
+                isBuildingBugger: true,
                 ingredients: {
                     ...state.ingredients,
                     [action.ingredientType]: ingredientTypeValue - 1
                 }
             }
             if(action.cb) {
-                return reduсer(newState, {type: action.cb});
+                return reducer(newState, {type: action.cb});
             }
             else {
                 return newState;
@@ -64,10 +67,11 @@ const reduсer = (state=initState, action) => {
                 ingredients: {},
                 totalPrice: 0,
             };
-        case actions.SET_INGRIDIEND:
+        case actions.SET_INGREDIENTS:
             return {
                 ...state,
                 loading: false,
+                isBuildingBugger: false,
                 error: false,
                 ingredients: action.ingredients,
             };
@@ -80,4 +84,4 @@ const reduсer = (state=initState, action) => {
     return state
 }
 
-export default reduсer;
+export default reducer;

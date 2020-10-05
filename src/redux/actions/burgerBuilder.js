@@ -3,14 +3,14 @@ import axios from '../../axios/order-lost';
 
 export const addIngredient = (ingredientType) => {
     return {
-        type: actionTypes.ADD_INGRIDIEND,
+        type: actionTypes.ADD_INGREDIENTS,
         ingredientType,
         cb: actionTypes.CALC_PRICE,
     }
 }
 export const removeIngredient = (ingredientType) => {
     return {
-        type: actionTypes.REMOVE_INGRIDIEND,
+        type: actionTypes.REMOVE_INGREDIENTS,
         ingredientType,
         cb: actionTypes.CALC_PRICE,
     }
@@ -18,7 +18,7 @@ export const removeIngredient = (ingredientType) => {
 
 export const setIngredients = (ingredients) => {
     return {
-        type: actionTypes.SET_INGRIDIEND,
+        type: actionTypes.SET_INGREDIENTS,
         ingredients: ingredients,
     }
 }

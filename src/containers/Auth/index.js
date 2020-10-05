@@ -4,7 +4,7 @@ import Input from '../../components/ui/Input';
 import classes from '../Checkout/ContactData/style.module.css';
 import { auth } from '../../redux/actions';
 import { Redirect } from 'react-router-dom';
-import Spiner from '../../components/ui/Spiner';
+import Spinner from '../../components/ui/Spinner';
 
 class Auth extends Component {
     state = {
@@ -121,7 +121,7 @@ class Auth extends Component {
                         disabled={this.props.loading}
                         className="btn btn-primary mb-3 d-inline-flex align-items-center"
                         >
-                        {this.props.loading ? <Spiner className="p-1 mr-2" /> : null }
+                        {this.props.loading ? <Spinner className="p-1 mr-2" /> : null }
                         Submit
                     </button>
                 </form>
@@ -131,7 +131,7 @@ class Auth extends Component {
                 >
                     Switch to { !this.state.isSignUp ? 'SIGN UP' : 'SIGN IN' }
                 </button>
-                {this.props.isAuth && <Redirect to="/" />}
+                {this.props.isAuth && <Redirect to={this.props.redirectPath} />}
             </div>
         );
     }
@@ -141,6 +141,7 @@ const mapStateToProps = state => ({
     error: state.auth.error,
     loading: state.auth.loading,
     isAuth: state.auth.token !== null,
+    redirectPath: state.auth.redirectPath,
 });
 
 const mapDispatchToProps = dispatch => ({

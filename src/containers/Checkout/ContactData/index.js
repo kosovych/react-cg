@@ -3,7 +3,7 @@ import classes from './style.module.css';
 import { connect } from 'react-redux';
 import * as actions from '../../../redux/actions/actionTypes';
 import axios from '../../../axios/order-lost';
-import Spiner from '../../../components/ui/Spiner/index';
+import Spinner from '../../../components/ui/Spinner/index';
 import Input from '../../../components/ui/Input';
 
 class ContactData extends React.Component {
@@ -195,7 +195,7 @@ class ContactData extends React.Component {
             )
         }
         const form = (
-            loading ? <Spiner /> : (
+            loading ? <Spinner /> : (
                 <form className={classes.Form} onSubmit={this.formHandler}>
                     <h2>Contact Form</h2>
                         {inputs}

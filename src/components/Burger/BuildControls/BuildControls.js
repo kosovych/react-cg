@@ -19,7 +19,8 @@ const BuildControls = (
     startPrice,
     purchasedToggle,
     ingredients,
-    isAuth
+    isAuth,
+    setRedirectPath
   }) => {
   const isPurchasable = Object.entries(ingredients).some(([type, count]) => {
     return count > 0
@@ -47,7 +48,9 @@ const BuildControls = (
               Order NOW!
           </button>
         ) : (
-          <Link to="/auth">
+          <Link
+            onClick={() => setRedirectPath()}
+            to="/auth">
             Sign in to continue
           </Link>
         )}

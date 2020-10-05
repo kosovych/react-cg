@@ -5,4 +5,4 @@ export {
 } from './burgerBuilder';
 
 
-export { auth, logout } from './auth';
+export { auth, logout, setRedirectPath } from './auth';

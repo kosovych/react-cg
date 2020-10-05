@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Order from '../../components/Order';
 import axios from '../../axios/order-lost';
 import widthErrorHendler from '../../hoc/widthErrorHendler';
-import Spiner from '../../components/ui/Spiner';
+import Spinner from '../../components/ui/Spinner';
 
 class Orders extends React.Component {
     state = {
@@ -34,7 +34,7 @@ class Orders extends React.Component {
         )
         return(
             <>
-                {this.state.loading ? <Spiner /> : null}
+                {this.state.loading ? <Spinner /> : null}
                 <div>
                     {orders}
                 </div>

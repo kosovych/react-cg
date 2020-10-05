@@ -1,4 +1,4 @@
-import {AUTH_START, AUTH_FAIL, AUTH_LOGOUT, AUTH_SUCCESS} from './actionTypes';
+import {AUTH_START, AUTH_FAIL, AUTH_LOGOUT, AUTH_SUCCESS, SET_REDIRECT_PATH} from './actionTypes';
 import axios from 'axios';
 
 const authStart = (authData) => ({
@@ -51,4 +51,9 @@ export const auth = (email, password, isSignUp) => {
     }
 };
 
-export default auth;
+export const setRedirectPath = (redirectPath) => {
+    return {
+        type: SET_REDIRECT_PATH,
+        redirectPath: redirectPath,
+    }
+}

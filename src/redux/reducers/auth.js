@@ -2,7 +2,8 @@ import {
     AUTH_START,
     AUTH_FAIL,
     AUTH_SUCCESS,
-    AUTH_LOGOUT
+    AUTH_LOGOUT,
+    SET_REDIRECT_PATH
 } from '../actions/actionTypes';
 
 const initState = {
@@ -10,6 +11,7 @@ const initState = {
     error: null,
     token: null,
     userId: null,
+    redirectPath: '/',
 };
 
 const authStart = (state) => {
@@ -46,14 +48,24 @@ const authLogout = (state) => {
     }
 }
 
-const reduser = (state=initState, action) => {
+const setRedirectPath = (state, action) => {
+    return {
+        ...state,
+        redirectPath: action.redirectPath,
+    }
+}
+
+const reducer = (state=initState, action) => {
     switch (action.type) {
         case AUTH_START: return authStart(state, action);
         case AUTH_FAIL: return authFail(state, action);
         case AUTH_SUCCESS: return authSuccess(state, action);
         case AUTH_LOGOUT: return authLogout(state);
+        case SET_REDIRECT_PATH: return setRedirectPath(state, action)
         default: return state
     }
 }
 
-export default reduser;
+
+
+export default reducer;

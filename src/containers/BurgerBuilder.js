@@ -4,10 +4,10 @@ import BuildControls from '../components/Burger/BuildControls/BuildControls';
 import Modal from '../components/ui/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../axios/order-lost';
-import Spiner from '../components/ui/Spiner';
+import Spinner from '../components/ui/Spinner';
 import widthErrorHendler from '../hoc/widthErrorHendler';
 import { connect } from 'react-redux';
-import { getIngredients } from '../redux/actions/index';
+import { getIngredients, setRedirectPath } from '../redux/actions/index';
 
 class BurgerBuilder extends React.Component {
   state = {
@@ -29,6 +29,14 @@ class BurgerBuilder extends React.Component {
       this.props.onIngredientsInit();
   }
 
+  setRedirectPath = () => {
+    console.log('----setRedirectPath');
+    if(this.props.isBuildingBugger) {
+      return this.props.onSetRedirectPath('/checkout')
+    }
+    return this.props.onSetRedirectPath('/')
+  }
+
   render() {
     const { purchased } = this.state;
     const disableInfo = {};
@@ -41,7 +49,7 @@ class BurgerBuilder extends React.Component {
       />
     )
     if (this.props.loading) {
-      order = <Spiner />
+      order = <Spinner />
     }
     return (
       <>
@@ -50,11 +58,12 @@ class BurgerBuilder extends React.Component {
           <>
             <Burger />
             <BuildControls
+              setRedirectPath={this.setRedirectPath}
               disableInfo={disableInfo}
               purchasedToggle={this.purchasedToggle}
             />
           </>
-          ) : <Spiner />
+          ) : <Spinner />
         }
         {this.props.error && <p className="text-center">Ingredients can't be loaded</p>}
         <Modal
@@ -81,12 +90,14 @@ const mapStateToProps = state => {
     totalPrice: state.burgerBuilder.totalPrice,
     loading: state.burgerBuilder.loading,
     error: state.burgerBuilder.error,
+    isBuildingBugger: state.burgerBuilder.isBuildingBugger,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    onIngredientsInit: () => dispatch(getIngredients())
+    onIngredientsInit: () => dispatch(getIngredients()),
+    onSetRedirectPath: (path) => dispatch(setRedirectPath(path))
   }
 }
 
