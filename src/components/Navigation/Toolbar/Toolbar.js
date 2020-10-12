@@ -20,19 +20,44 @@ const Toolbar = (props) => {
           <nav className={`${isOpen ? 'navbar-collapse--open' : ''} collapse navbar-collapse`}>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <NavLink activeClassName="active" exact className="nav-link" to="/">Burger Builder</NavLink>
+                <NavLink
+                  onClick={() => setOpen(false)}
+                  activeClassName="active"
+                  exact className="nav-link" to="/"
+                >
+                  Burger Builder
+                </NavLink>
               </li>
               {props.isLogin && (
                 <li className="nav-item">
-                  <NavLink activeClassName="active" className="nav-link" to="/orders">Orders</NavLink>
+                  <NavLink
+                    onClick={() => setOpen(false)}
+                    activeClassName="active"
+                    className="nav-link"
+                    to="/orders"
+                  >
+                    Orders
+                  </NavLink>
                 </li>
               )}
               <li className="nav-item">
                 {
                   props.isLogin ?
-                  <NavLink activeClassName="active" className="nav-link" to="/logout">Logout</NavLink>
+                  <NavLink
+                    onClick={() => setOpen(false)}
+                    activeClassName="active"
+                    className="nav-link" to="/logout"
+                  >
+                    Logout
+                  </NavLink>
                   :
-                  <NavLink activeClassName="active" className="nav-link" to="/auth">Auth</NavLink>
+                  <NavLink
+                    onClick={() => setOpen(false)}
+                    activeClassName="active"
+                    className="nav-link" to="/auth"
+                  >
+                    Auth
+                  </NavLink>
                 }
               </li>
             </ul>

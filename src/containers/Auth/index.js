@@ -5,7 +5,7 @@ import classes from '../Checkout/ContactData/style.module.css';
 import { auth } from '../../redux/actions';
 import { Redirect } from 'react-router-dom';
 import Spinner from '../../components/ui/Spinner';
-
+import { isValid } from '../../utils/isValid';
 class Auth extends Component {
     state = {
         controls: {
@@ -43,37 +43,13 @@ class Auth extends Component {
         isSignUp: true,
     }
 
-    isValid = (value, validation) => {   
-        const { required, min, max } = validation;
-        const trimedValue = value.trim();
-        let errorMessage = '';
-        let isValid = false;
-        if(required) {
-            isValid = trimedValue.length > 0;
-            errorMessage = `Should be not empty`;
-        }
-        if(min) {
-            isValid = trimedValue.length >= min;
-            errorMessage = `Should be more than ${min}`;
-        }
-        if(max) {
-            isValid = trimedValue.length <= max;
-            errorMessage = `Should be less than ${max}`;
-        }
-        if(min && max) {
-            isValid = trimedValue.length >= min && trimedValue.length <= max;
-            errorMessage = `Should be more than ${min} and less than ${max}`;
-        }   
-        return {isValid, errorMessage};
-    }
-
     changeHandler(event, input) {
         const controls = {
             ...this.state.controls,
             [input]: {
                 ...this.state.controls[input],
                 touched: true,
-                valid: this.isValid(event.target.value, this.state.controls[input].validation).isValid,
+                valid: isValid(event.target.value, this.state.controls[input].validation).isValid,
                 elementConfig: {
                     ...this.state.controls[input].elementConfig,
                     value: event.target.value,

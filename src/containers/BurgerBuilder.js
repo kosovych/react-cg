@@ -5,7 +5,7 @@ import Modal from '../components/ui/Modal/Modal';
 import OrderSummary from '../components/Burger/OrderSummary/OrderSummary';
 import axios from '../axios/order-lost';
 import Spinner from '../components/ui/Spinner';
-import widthErrorHendler from '../hoc/widthErrorHendler';
+import widthErrorHandler from '../hoc/widthErrorHandler';
 import { connect } from 'react-redux';
 import { getIngredients, setRedirectPath } from '../redux/actions/index';
 
@@ -21,7 +21,7 @@ class BurgerBuilder extends React.Component {
     })
   }
 
-  purchasContinue = () => {
+  purchaseContinue = () => {
     this.props.history.push('/checkout');
   }
 
@@ -30,7 +30,6 @@ class BurgerBuilder extends React.Component {
   }
 
   setRedirectPath = () => {
-    console.log('----setRedirectPath');
     if(this.props.isBuildingBugger) {
       return this.props.onSetRedirectPath('/checkout')
     }
@@ -45,7 +44,7 @@ class BurgerBuilder extends React.Component {
     }
     let order = (
       <OrderSummary
-        purchasContinue={this.purchasContinue}
+        purchaseContinue={this.purchaseContinue}
       />
     )
     if (this.props.loading) {
@@ -73,7 +72,7 @@ class BurgerBuilder extends React.Component {
           footer={
             <>
               <button onClick={this.purchasedToggle} type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button onClick={this.purchasContinue} type="button" className="btn btn-primary">Continue</button>
+              <button onClick={this.purchaseContinue} type="button" className="btn btn-primary">Continue</button>
             </>
           }
           >
@@ -101,5 +100,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(widthErrorHendler( BurgerBuilder, axios ));
+export default connect(mapStateToProps, mapDispatchToProps)(widthErrorHandler( BurgerBuilder, axios ));
 

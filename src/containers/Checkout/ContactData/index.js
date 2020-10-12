@@ -5,6 +5,7 @@ import * as actions from '../../../redux/actions/actionTypes';
 import axios from '../../../axios/order-lost';
 import Spinner from '../../../components/ui/Spinner/index';
 import Input from '../../../components/ui/Input';
+import { isValid as validation } from '../../../utils/index';
 
 class ContactData extends React.Component {
     state = {
@@ -105,7 +106,7 @@ class ContactData extends React.Component {
 
     formHandler = (event) => { 
         event.preventDefault();
-        const { ingredients, totalPrice} = this.props;
+        const { ingredients, totalPrice, userId } = this.props;
         const { orderForm } = this.state;
         const orderInfo = {};
         for (const input in orderForm) {
@@ -115,7 +116,8 @@ class ContactData extends React.Component {
         const order = {
             ingredients,
             totalPrice,
-            orderInfo
+            orderInfo,
+            userId
         };
         this.setState(() => ({loading: true}));
         axios.post(`/orders.json?auth=${this.props.token}`, order)
@@ -129,35 +131,11 @@ class ContactData extends React.Component {
         .catch(err => this.setState(() => ({ loading: false})));
     }
 
-    isValid = (value, validation) => {
-        const { required, min, max } = validation;
-        const trimedValue = value.trim();
-        let errorMessage = '';
-        let isValid = false;
-        if(required) {
-            isValid = trimedValue.length > 0;
-            errorMessage = `Should be not empty`;
-        }
-        if(min) {
-            isValid = trimedValue.length >= min;
-            errorMessage = `Should be more than ${min}`;
-        }
-        if(max) {
-            isValid = trimedValue.length <= max;
-            errorMessage = `Should be less than ${max}`;
-        }
-        if(min && max) {
-            isValid = trimedValue.length >= min && trimedValue.length <= max;
-            errorMessage = `Should be more than ${min} and less than ${max}`;
-        }
-        return {isValid, errorMessage};
-    }
-
     changeHandler = (event, input) => {
         let formOrder = { ...this.state.orderForm };
         let formOrderInput = {...formOrder[input]};
         if(formOrderInput.validation) {
-            const {isValid, errorMessage} = this.isValid(event.target.value, formOrderInput.validation);
+            const {isValid, errorMessage} = validation(event.target.value, formOrderInput.validation);
             formOrderInput.touched = true;
             formOrderInput.valid = isValid;
             formOrderInput.errorMessage = errorMessage;
@@ -213,12 +191,13 @@ const mapStateToProps = state => ({
     ingredients: state.burgerBuilder.ingredients,
     totalPrice: state.burgerBuilder.totalPrice,
     token: state.auth.token,
+    userId: state.auth.userId,
 });
 
-const mapDispathToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         resetIngredients: () => dispatch({type: actions.RESET_Ingredients})
     }
 }
 
-export default connect(mapStateToProps, mapDispathToProps)(ContactData);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

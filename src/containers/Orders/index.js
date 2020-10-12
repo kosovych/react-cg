@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Order from '../../components/Order';
 import axios from '../../axios/order-lost';
-import widthErrorHendler from '../../hoc/widthErrorHendler';
+import widthErrorHandler from '../../hoc/widthErrorHandler';
 import Spinner from '../../components/ui/Spinner';
 
 class Orders extends React.Component {
@@ -11,9 +11,10 @@ class Orders extends React.Component {
         loading: false,
     };
     componentWillMount() {
+        const userId = this.props.userId;
         this.setState({loading: true})
         axios
-            .get(`/orders.json?auth=${this.props.token}`)
+            .get(`/orders.json?auth=${this.props.token}&orderBy="userId"&equalTo="${userId}"`)
             .then(res => {
                 let orders = [];
                 for ( let order in res.data) {
@@ -45,6 +46,7 @@ class Orders extends React.Component {
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
+    userId: state.auth.userId,
 });
 
-export default widthErrorHendler(connect(mapStateToProps, null)(Orders), axios);
+export default widthErrorHandler(connect(mapStateToProps, null)(Orders), axios);
