@@ -14,9 +14,22 @@
     background-color: white;
     text-align: center;
     cursor: pointer;
+    opacity: 1;
+    transition: all 1s;
 }
 
 .ListItem:hover,
 .ListItem:active {
     background-color: #ccc;
+}
+
+.ListItem-enter-active,
+.ListItem-enter-done {
+    opacity: 1;
+}
+.ListItem-exit {
+    opacity: 1;
+}
+.ListItem-exit-active {
+    opacity: 0;
 }

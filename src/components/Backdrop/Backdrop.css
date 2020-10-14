@@ -6,4 +6,19 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.8);
+    transition: all 500ms;
+    opacity: 0;
+}
+
+.Backdrop-enter-active {
+    opacity: 1;
+}
+.Backdrop-enter-done {
+    opacity: 1;
+}
+.Backdrop-exit {
+    opacity: 1;
+}
+.Backdrop-exit-active {
+    opacity: 0;
 }

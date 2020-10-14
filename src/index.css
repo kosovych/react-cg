@@ -17,3 +17,34 @@ body {
 .Button:active {
   background-color: #fa923f;
 }
+
+
+.test-div {
+  background-color: red;
+  border-radius: 100px;
+  margin: 0px auto;
+  transition: 0.5s;
+}
+.test-div-enter-active {
+  background-color: green;
+  opacity: 0;
+  height: 0px;
+  width: 0px;
+
+}
+.test-div-enter-done {
+  height: 200px;
+  width: 200px;
+  margin: 10px auto;
+}
+
+.test-div-exit {
+  height: 200px;
+  width: 200px;
+}
+
+.test-div-exit-active {
+  height: 0px;
+  width: 0px;
+  background-color: greenyellow;
+}
